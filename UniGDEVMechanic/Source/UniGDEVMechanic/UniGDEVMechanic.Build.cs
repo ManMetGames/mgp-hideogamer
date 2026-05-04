@@ -9,6 +9,7 @@ public class UniGDEVMechanic : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		PublicDependencyModuleNames.AddRange(new string[] {
+                        "CableComponent",
 			"Core",
 			"CoreUObject",
 			"Engine",

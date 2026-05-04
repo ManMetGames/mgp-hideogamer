@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "UniGDEVMechanic",
+			"Path": "..\\Source\\UniGDEVMechanic.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "UniGDEVMechanicEditor",
+			"Path": "..\\Source\\UniGDEVMechanicEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}

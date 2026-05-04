@@ -1,0 +1,8 @@
+{
+	"SourceFiles": [
+		"C:\\Uni\\Unreal\\mgp-hideogamer\\mgp-hideogamer\\UniGDEVMechanic\\Source\\UniGDEVMechanic\\UniGDEVMechanic.Build.cs",
+		"C:\\Uni\\Unreal\\mgp-hideogamer\\mgp-hideogamer\\UniGDEVMechanic\\Source\\UniGDEVMechanic.Target.cs",
+		"C:\\Uni\\Unreal\\mgp-hideogamer\\mgp-hideogamer\\UniGDEVMechanic\\Source\\UniGDEVMechanicEditor.Target.cs"
+	],
+	"EngineVersion": "5.7.4"
+}

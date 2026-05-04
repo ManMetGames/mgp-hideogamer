@@ -9,6 +9,7 @@
 #include "InputActionValue.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "UniGDEVMechanic.h"
+#include "CableComponent.h"
 
 AUniGDEVMechanicCharacter::AUniGDEVMechanicCharacter()
 {
@@ -42,6 +43,10 @@ AUniGDEVMechanicCharacter::AUniGDEVMechanicCharacter()
 	// Configure character movement
 	GetCharacterMovement()->BrakingDecelerationFalling = 1500.0f;
 	GetCharacterMovement()->AirControl = 0.5f;
+
+	GrappleCable = CreateDefaultSubobject<UCableComponent>(TEXT("Grappling Line"));
+	GrappleCable->SetupAttachment(FirstPersonCameraComponent);
+	GrappleCable->SetVisibility(false);
 }
 
 void AUniGDEVMechanicCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -59,11 +64,25 @@ void AUniGDEVMechanicCharacter::SetupPlayerInputComponent(UInputComponent* Playe
 		// Looking/Aiming
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AUniGDEVMechanicCharacter::LookInput);
 		EnhancedInputComponent->BindAction(MouseLookAction, ETriggerEvent::Triggered, this, &AUniGDEVMechanicCharacter::LookInput);
+
+		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Triggered, this, &AUniGDEVMechanicCharacter::Interact);
+		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Completed, this, &AUniGDEVMechanicCharacter::StopInteract);
+
+
+
 	}
 	else
 	{
 		UE_LOG(LogUniGDEVMechanic, Error, TEXT("'%s' Failed to find an Enhanced Input Component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
 	}
+}
+
+void AUniGDEVMechanicCharacter::Interact()
+{
+}
+
+void AUniGDEVMechanicCharacter::StopInteract()
+{
 }
 
 

@@ -48,6 +48,12 @@ protected:
 	/** Mouse Look Input Action */
 	UPROPERTY(EditAnywhere, Category ="Input")
 	class UInputAction* MouseLookAction;
+
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* InteractAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Grapple, meta = (AllowPrivateAccess = "true"))
+	class UCableComponent* GrappleCable;
 	
 public:
 	AUniGDEVMechanicCharacter();
@@ -89,6 +95,15 @@ public:
 
 	/** Returns first person camera component **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
+
+private:
+
+	void Interact();
+	void StopInteract();
+
+	float MaxGrappleDistance = 1600.f;
+	bool isGrappling = false;
+	FVector GrapplePoint;
 
 };
 

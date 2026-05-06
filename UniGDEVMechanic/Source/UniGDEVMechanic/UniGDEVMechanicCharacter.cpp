@@ -10,6 +10,10 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "UniGDEVMechanic.h"
 #include "CableComponent.h"
+#include "DrawDebugHelpers.h"
+#include "Engine/LocalPlayer.h"
+#include "Kismet/KismetMathLibrary.h"
+#include "GameFramework//CharacterMovementComponent.h"
 
 AUniGDEVMechanicCharacter::AUniGDEVMechanicCharacter()
 {
@@ -65,8 +69,9 @@ void AUniGDEVMechanicCharacter::SetupPlayerInputComponent(UInputComponent* Playe
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AUniGDEVMechanicCharacter::LookInput);
 		EnhancedInputComponent->BindAction(MouseLookAction, ETriggerEvent::Triggered, this, &AUniGDEVMechanicCharacter::LookInput);
 
-		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Triggered, this, &AUniGDEVMechanicCharacter::Interact);
-		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Completed, this, &AUniGDEVMechanicCharacter::StopInteract);
+		// Grappling
+		EnhancedInputComponent->BindAction(GrappleAction, ETriggerEvent::Triggered, this, &AUniGDEVMechanicCharacter::Grapple);
+		EnhancedInputComponent->BindAction(GrappleAction, ETriggerEvent::Completed, this, &AUniGDEVMechanicCharacter::StopGrapple);
 
 
 
@@ -77,12 +82,50 @@ void AUniGDEVMechanicCharacter::SetupPlayerInputComponent(UInputComponent* Playe
 	}
 }
 
-void AUniGDEVMechanicCharacter::Interact()
+void AUniGDEVMechanicCharacter::Tick(float DeltaTime) 
 {
+	Super::Tick(DeltaTime);
+
+	if (isGrappling) 
+	{
+		// Get the end location using the grapple point transform
+		GrappleCable->EndLocation = GetActorTransform().InverseTransformPosition(GrapplePoint);
+
+		// Move Player towards the grapple point
+		GetCharacterMovement()->AddForce((GrapplePoint - GetActorLocation()).GetSafeNormal() * 100000);
+	}
 }
 
-void AUniGDEVMechanicCharacter::StopInteract()
+void AUniGDEVMechanicCharacter::Grapple()
 {
+	// Get Capsule Component location
+	FVector Start = GetCapsuleComponent()->GetComponentLocation();
+	//Line trace of the grapple. Distance and direction.
+	FVector End = Start + (MaxGrappleDistance * UKismetMathLibrary::GetForwardVector(FirstPersonCameraComponent->GetComponentRotation()));
+	DrawDebugLine(GetWorld(), Start, End, FColor::Red);
+
+	FHitResult HitResult;
+
+	// Populate HitResult with the first collision in the Grappleable trace channel. hasHit is true if there is any collision
+	bool hasHit = GetWorld()->SweepSingleByChannel(HitResult, Start, End, FQuat::Identity, ECC_GameTraceChannel2, FCollisionShape::MakeSphere(100.f));
+
+	if (hasHit) 
+	{
+		isGrappling = true;
+		GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Flying);
+		GrappleCable->SetVisibility(true);
+		GrapplePoint = HitResult.ImpactPoint;
+	}
+}
+
+void AUniGDEVMechanicCharacter::StopGrapple()
+{
+	isGrappling = false;
+	if (!GetCharacterMovement()->IsFalling()) 
+	{
+		GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Falling);
+	}
+	GrappleCable->SetVisibility(false);
 }
 
 

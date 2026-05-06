@@ -40,6 +40,7 @@
 "C:/Uni/Unreal/mgp-hideogamer/mgp-hideogamer/UniGDEVMechanic/Intermediate/Build/Win64/x64/UniGDEVMechanicEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.obj"
 "C:/Uni/Unreal/mgp-hideogamer/mgp-hideogamer/UniGDEVMechanic/Intermediate/Build/Win64/x64/UnrealEditor/Development/UniGDEVMechanic/Module.UniGDEVMechanic.cpp.obj"
 "C:/Uni/Unreal/mgp-hideogamer/mgp-hideogamer/UniGDEVMechanic/Intermediate/Build/Win64/x64/UnrealEditor/Development/UniGDEVMechanic/Default.rc2.res"
+"../Plugins/Runtime/CableComponent/Intermediate/Build/Win64/x64/UnrealEditor/Development/CableComponent/UnrealEditor-CableComponent.lib"
 "../Intermediate/Build/Win64/x64/UnrealEditor/Development/Core/UnrealEditor-Core.lib"
 "../Intermediate/Build/Win64/x64/UnrealEditor/Development/CoreUObject/UnrealEditor-CoreUObject.lib"
 "../Intermediate/Build/Win64/x64/UnrealEditor/Development/Engine/UnrealEditor-Engine.lib"

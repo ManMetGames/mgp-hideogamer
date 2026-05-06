@@ -5,7 +5,10 @@
 			"guid": "00000000000000000000000000000000",
 			"description": "Default Uncontrolled Changelist",
 			"files": [
-				"C:/Uni/Unreal/mgp-hideogamer/mgp-hideogamer/UniGDEVMechanic/Content/FirstPerson/Blueprints/BP_FirstPersonCharacter.uasset"
+				"C:/Uni/Unreal/mgp-hideogamer/mgp-hideogamer/UniGDEVMechanic/Content/FirstPerson/Blueprints/BP_FirstPersonCharacter.uasset",
+				"C:/Uni/Unreal/mgp-hideogamer/mgp-hideogamer/UniGDEVMechanic/Content/__ExternalActors__/FirstPerson/Lvl_FirstPerson/5/KN/P8QJREMQI2W2W53A23BLES.uasset",
+				"C:/Uni/Unreal/mgp-hideogamer/mgp-hideogamer/UniGDEVMechanic/Content/Input/Actions/IA_Grapple.uasset",
+				"C:/Uni/Unreal/mgp-hideogamer/mgp-hideogamer/UniGDEVMechanic/Content/Input/IMC_Default.uasset"
 			]
 		}
 	]

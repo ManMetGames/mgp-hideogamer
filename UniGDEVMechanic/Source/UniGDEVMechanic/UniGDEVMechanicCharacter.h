@@ -50,13 +50,18 @@ protected:
 	class UInputAction* MouseLookAction;
 
 	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction* InteractAction;
+	class UInputAction* GrappleAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Grapple, meta = (AllowPrivateAccess = "true"))
 	class UCableComponent* GrappleCable;
 	
 public:
 	AUniGDEVMechanicCharacter();
+
+protected:
+
+	//virtual void BeginPlay();
+	void Tick(float DeltaTime);
 
 protected:
 
@@ -82,6 +87,8 @@ protected:
 	UFUNCTION(BlueprintCallable, Category="Input")
 	virtual void DoJumpEnd();
 
+	
+
 protected:
 
 	/** Set up input action bindings */
@@ -98,8 +105,8 @@ public:
 
 private:
 
-	void Interact();
-	void StopInteract();
+	void Grapple();
+	void StopGrapple();
 
 	float MaxGrappleDistance = 1600.f;
 	bool isGrappling = false;

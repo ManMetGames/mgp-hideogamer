@@ -109,8 +109,11 @@ private:
 	void StopGrapple();
 
 	float MaxGrappleDistance = 1600.f;
-	bool isGrappling = false;
+	bool bIsGrappling;
+	bool bHasHit;
 	FVector GrapplePoint;
+
+	FHitResult HitResult;
 
 };
 

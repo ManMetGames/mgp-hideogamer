@@ -71,7 +71,7 @@ void AUniGDEVMechanicCharacter::SetupPlayerInputComponent(UInputComponent* Playe
 
 		// Grappling
 		EnhancedInputComponent->BindAction(GrappleAction, ETriggerEvent::Triggered, this, &AUniGDEVMechanicCharacter::Grapple);
-		EnhancedInputComponent->BindAction(GrappleAction, ETriggerEvent::Completed, this, &AUniGDEVMechanicCharacter::StopGrapple);
+		//EnhancedInputComponent->BindAction(GrappleAction, ETriggerEvent::Completed, this, &AUniGDEVMechanicCharacter::StopGrapple);
 
 
 
@@ -86,7 +86,7 @@ void AUniGDEVMechanicCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (isGrappling) 
+	if (bIsGrappling) 
 	{
 		// Get the end location using the grapple point transform
 		GrappleCable->EndLocation = GetActorTransform().InverseTransformPosition(GrapplePoint);
@@ -98,20 +98,24 @@ void AUniGDEVMechanicCharacter::Tick(float DeltaTime)
 
 void AUniGDEVMechanicCharacter::Grapple()
 {
+	
+	if (bIsGrappling) 
+	{
+		StopGrapple();
+		return;
+	}
 	// Get Capsule Component location
 	FVector Start = GetCapsuleComponent()->GetComponentLocation();
 	//Line trace of the grapple. Distance and direction.
 	FVector End = Start + (MaxGrappleDistance * UKismetMathLibrary::GetForwardVector(FirstPersonCameraComponent->GetComponentRotation()));
 	DrawDebugLine(GetWorld(), Start, End, FColor::Red);
 
-	FHitResult HitResult;
-
 	// Populate HitResult with the first collision in the Grappleable trace channel. hasHit is true if there is any collision
-	bool hasHit = GetWorld()->SweepSingleByChannel(HitResult, Start, End, FQuat::Identity, ECC_GameTraceChannel2, FCollisionShape::MakeSphere(100.f));
+	bHasHit = GetWorld()->SweepSingleByChannel(HitResult, Start, End, FQuat::Identity, ECC_GameTraceChannel2, FCollisionShape::MakeSphere(10.f));
 
-	if (hasHit) 
+	if (bHasHit) 
 	{
-		isGrappling = true;
+		bIsGrappling = true;
 		GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Flying);
 		GrappleCable->SetVisibility(true);
 		GrapplePoint = HitResult.ImpactPoint;
@@ -120,7 +124,9 @@ void AUniGDEVMechanicCharacter::Grapple()
 
 void AUniGDEVMechanicCharacter::StopGrapple()
 {
-	isGrappling = false;
+	bIsGrappling = false;
+	bHasHit = false;
+	
 	if (!GetCharacterMovement()->IsFalling()) 
 	{
 		GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Falling);

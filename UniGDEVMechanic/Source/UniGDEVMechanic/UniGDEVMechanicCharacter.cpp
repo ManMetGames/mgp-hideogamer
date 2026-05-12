@@ -13,7 +13,7 @@
 #include "DrawDebugHelpers.h"
 #include "Engine/LocalPlayer.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "GameFramework//CharacterMovementComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 AUniGDEVMechanicCharacter::AUniGDEVMechanicCharacter()
 {
@@ -48,9 +48,24 @@ AUniGDEVMechanicCharacter::AUniGDEVMechanicCharacter()
 	GetCharacterMovement()->BrakingDecelerationFalling = 1500.0f;
 	GetCharacterMovement()->AirControl = 0.5f;
 
-	GrappleCable = CreateDefaultSubobject<UCableComponent>(TEXT("Grappling Line"));
-	GrappleCable->SetupAttachment(FirstPersonCameraComponent);
+	// Creates the grapple gun mesh
+	GrappleGun = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Grapple Gun"));
+	GrappleGun->SetupAttachment(FirstPersonCameraComponent);
+	GrappleGun->SetVisibility(true);
+
+	
+	// Creates the grapple start mesh
+	GrappleStartLocation = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Grapple Start Location"));
+	GrappleStartLocation->SetupAttachment(GrappleGun);
+	GrappleStartLocation->SetVisibility(true);
+	
+	// Creates the grapple cable component
+	GrappleCable = CreateDefaultSubobject<UCableComponent>(TEXT("Grapple Cable"));
+	GrappleCable->SetupAttachment(GrappleStartLocation);
 	GrappleCable->SetVisibility(false);
+
+	
+
 }
 
 void AUniGDEVMechanicCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -89,7 +104,7 @@ void AUniGDEVMechanicCharacter::Tick(float DeltaTime)
 	if (bIsGrappling) 
 	{
 		// Get the end location using the grapple point transform
-		GrappleCable->EndLocation = GetActorTransform().InverseTransformPosition(GrapplePoint);
+	    GrappleCable->EndLocation = GetActorTransform().InverseTransformPosition(GrapplePoint);
 
 		// Move Player towards the grapple point
 		GetCharacterMovement()->AddForce((GrapplePoint - GetActorLocation()).GetSafeNormal() * 100000);
@@ -105,7 +120,7 @@ void AUniGDEVMechanicCharacter::Grapple()
 		return;
 	}
 	// Get Capsule Component location
-	FVector Start = GetCapsuleComponent()->GetComponentLocation();
+	FVector Start = GetFirstPersonCameraComponent()->GetComponentLocation();
 	//Line trace of the grapple. Distance and direction.
 	FVector End = Start + (MaxGrappleDistance * UKismetMathLibrary::GetForwardVector(FirstPersonCameraComponent->GetComponentRotation()));
 	DrawDebugLine(GetWorld(), Start, End, FColor::Red);

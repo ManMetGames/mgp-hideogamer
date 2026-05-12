@@ -54,6 +54,12 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Grapple, meta = (AllowPrivateAccess = "true"))
 	class UCableComponent* GrappleCable;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Grapple, meta = (AllowPrivateAccess = "true"))
+	class UStaticMeshComponent* GrappleStartLocation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Grapple, meta = (AllowPrivateAccess = "true"))
+	class UStaticMeshComponent* GrappleGun;
 	
 public:
 	AUniGDEVMechanicCharacter();

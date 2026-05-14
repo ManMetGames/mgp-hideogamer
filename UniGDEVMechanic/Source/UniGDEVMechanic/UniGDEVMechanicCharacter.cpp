@@ -13,7 +13,7 @@
 #include "DrawDebugHelpers.h"
 #include "Engine/LocalPlayer.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "GameFramework/CharacterMovementComponent.h"
+
 
 AUniGDEVMechanicCharacter::AUniGDEVMechanicCharacter()
 {
@@ -103,11 +103,13 @@ void AUniGDEVMechanicCharacter::Tick(float DeltaTime)
 
 	if (bIsGrappling) 
 	{
+		// Disable friction
+		GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Falling);
 		// Get the end location using the grapple point transform
 	    GrappleCable->EndLocation = GetActorTransform().InverseTransformPosition(GrapplePoint);
 
-		// Move Player towards the grapple point
-		GetCharacterMovement()->AddForce((GrapplePoint - GetActorLocation()).GetSafeNormal() * 100000);
+		// Move Player towards the grapple point. The number that it is multiplied is the speed that the grapple is reeled in.
+		GetCharacterMovement()->AddForce((GrapplePoint - GetActorLocation()).GetSafeNormal() * 300000);
 	}
 }
 
@@ -131,7 +133,6 @@ void AUniGDEVMechanicCharacter::Grapple()
 	if (bHasHit) 
 	{
 		bIsGrappling = true;
-		GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Flying);
 		GrappleCable->SetVisibility(true);
 		GrapplePoint = HitResult.ImpactPoint;
 	}
@@ -144,6 +145,7 @@ void AUniGDEVMechanicCharacter::StopGrapple()
 	
 	if (!GetCharacterMovement()->IsFalling()) 
 	{
+		// disable friction
 		GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Falling);
 	}
 	GrappleCable->SetVisibility(false);

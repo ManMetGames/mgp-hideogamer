@@ -13,6 +13,11 @@
 #include "DrawDebugHelpers.h"
 #include "Engine/LocalPlayer.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "PhysicsEngine/PhysicsConstraintComponent.h"
+#include "Engine/StaticMeshActor.h"
+#include "GrappleConstraint.h"
+
+
 
 
 AUniGDEVMechanicCharacter::AUniGDEVMechanicCharacter()
@@ -45,8 +50,8 @@ AUniGDEVMechanicCharacter::AUniGDEVMechanicCharacter()
 	GetCapsuleComponent()->SetCapsuleSize(34.0f, 96.0f);
 
 	// Configure character movement
-	GetCharacterMovement()->BrakingDecelerationFalling = 1500.0f;
-	GetCharacterMovement()->AirControl = 0.5f;
+	GetCharacterMovement()->BrakingDecelerationFalling = 0;
+	GetCharacterMovement()->AirControl = 2.0f;
 
 	// Creates the grapple gun mesh
 	GrappleGun = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Grapple Gun"));
@@ -54,10 +59,18 @@ AUniGDEVMechanicCharacter::AUniGDEVMechanicCharacter()
 	GrappleGun->SetVisibility(true);
 
 	
-	// Creates the grapple start mesh
+	// Creates the mesh that the cable is attached to
 	GrappleStartLocation = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Grapple Start Location"));
 	GrappleStartLocation->SetupAttachment(GrappleGun);
-	GrappleStartLocation->SetVisibility(true);
+	
+	// Creates the mesh that the cable end location will be attached to. Purely visual
+	GrappleHook = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Grapple Hook"));
+	GrappleHook->SetupAttachment(GrappleStartLocation);
+	
+	// Limits the distance from the grapple point
+	//GrapplePhysicsConstraint = CreateDefaultSubobject<UPhysicsConstraintComponent>(TEXT("Physics Constraint Component"));
+	//GrapplePhysicsConstraint->SetupAttachment(GrappleStartLocation);
+	
 	
 	// Creates the grapple cable component
 	GrappleCable = CreateDefaultSubobject<UCableComponent>(TEXT("Grapple Cable"));
@@ -65,6 +78,13 @@ AUniGDEVMechanicCharacter::AUniGDEVMechanicCharacter()
 	GrappleCable->SetVisibility(false);
 
 	
+
+}
+
+void AUniGDEVMechanicCharacter::BeginPlay() 
+{
+	Super::BeginPlay();
+
 
 }
 
@@ -86,7 +106,7 @@ void AUniGDEVMechanicCharacter::SetupPlayerInputComponent(UInputComponent* Playe
 
 		// Grappling
 		EnhancedInputComponent->BindAction(GrappleAction, ETriggerEvent::Triggered, this, &AUniGDEVMechanicCharacter::Grapple);
-		//EnhancedInputComponent->BindAction(GrappleAction, ETriggerEvent::Completed, this, &AUniGDEVMechanicCharacter::StopGrapple);
+		
 
 
 
@@ -105,12 +125,33 @@ void AUniGDEVMechanicCharacter::Tick(float DeltaTime)
 	{
 		// Disable friction
 		GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Falling);
+
+		// Get player location
+		PlayerPosition = GetActorLocation();
+		
 		// Get the end location using the grapple point transform
 	    GrappleCable->EndLocation = GetActorTransform().InverseTransformPosition(GrapplePoint);
 
+		//GrappleHook->(GrapplePoint, false, 0, ETeleportType::None);
+		//GrappleHook->RelativeLocation
+
+		
+		
+
+		// Finds float distance from grapple point
+		DistanceFromGrapplePoint = (GrapplePoint - PlayerPosition).Size();
+		if (DistanceFromGrapplePoint > MaxGrappleDistance) 
+		{
+			GetCharacterMovement()->AddForce(GetVelocity()-(CalculateDotProductCustom()*(GrapplePoint - PlayerPosition).GetSafeNormal())*18000);
+		}
+
+
 		// Move Player towards the grapple point. The number that it is multiplied is the speed that the grapple is reeled in.
-		GetCharacterMovement()->AddForce((GrapplePoint - GetActorLocation()).GetSafeNormal() * 300000);
-	}
+		//GetCharacterMovement()->AddForce((GrapplePoint - GetActorLocation()).GetSafeNormal() * 300000);
+
+		
+	} 
+	
 }
 
 void AUniGDEVMechanicCharacter::Grapple()
@@ -124,7 +165,7 @@ void AUniGDEVMechanicCharacter::Grapple()
 	// Get Capsule Component location
 	FVector Start = GetFirstPersonCameraComponent()->GetComponentLocation();
 	//Line trace of the grapple. Distance and direction.
-	FVector End = Start + (MaxGrappleDistance * UKismetMathLibrary::GetForwardVector(FirstPersonCameraComponent->GetComponentRotation()));
+	FVector End = Start + (MaxGrappleShootingDistance * UKismetMathLibrary::GetForwardVector(FirstPersonCameraComponent->GetComponentRotation()));
 	DrawDebugLine(GetWorld(), Start, End, FColor::Red);
 
 	// Populate HitResult with the first collision in the Grappleable trace channel. hasHit is true if there is any collision
@@ -135,6 +176,27 @@ void AUniGDEVMechanicCharacter::Grapple()
 		bIsGrappling = true;
 		GrappleCable->SetVisibility(true);
 		GrapplePoint = HitResult.ImpactPoint;
+
+		PlayerPosition = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
+		// Finds float distance from grapple point
+		DistanceFromGrapplePoint = (GrapplePoint - PlayerPosition).Size();
+		// Sets this as the maximum distance from that point
+		MaxGrappleDistance = DistanceFromGrapplePoint;
+
+		/*FActorSpawnParameters SpawnInfo;
+		UPrimitiveComponent* GrappleConstraintPoint = GetWorld()->SpawnActor<UPrimitiveComponent>(GrappleConstraintClass, GrapplePoint, SpawnRotation);
+		UE_LOG(LogTemp, Warning, TEXT("Object created"));
+		GrapplePhysicsConstraint->SetConstrainedComponents(GrappleConstraintPoint, "", GetCapsuleComponent(), "");
+
+		PlayerPosition = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
+		// Finds float distance from grapple point
+		DistanceFromGrapplePoint = (GrapplePoint - PlayerPosition).Size();
+		// Sets this as the maximum distance from that point
+		MaxGrappleDistance = DistanceFromGrapplePoint;
+		GrapplePhysicsConstraint->SetLinearXLimit(ELinearConstraintMotion::LCM_Limited, MaxGrappleDistance);
+		GrapplePhysicsConstraint->SetLinearYLimit(ELinearConstraintMotion::LCM_Limited, MaxGrappleDistance);
+		GrapplePhysicsConstraint->SetLinearZLimit(ELinearConstraintMotion::LCM_Limited, MaxGrappleDistance);*/
+
 	}
 }
 
@@ -149,6 +211,18 @@ void AUniGDEVMechanicCharacter::StopGrapple()
 		GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Falling);
 	}
 	GrappleCable->SetVisibility(false);
+}
+
+float AUniGDEVMechanicCharacter::CalculateDotProductCustom() 
+{
+	FVector Velocity = GetVelocity();
+	FVector NormalizedDirection = (GrapplePoint - PlayerPosition).GetSafeNormal();
+	float x = Velocity.X * NormalizedDirection.X;
+	float y = Velocity.Y * NormalizedDirection.Y;
+	float z = Velocity.Z * NormalizedDirection.Z;
+	float DotProduct = x + y + z;
+	return DotProduct;
+
 }
 
 

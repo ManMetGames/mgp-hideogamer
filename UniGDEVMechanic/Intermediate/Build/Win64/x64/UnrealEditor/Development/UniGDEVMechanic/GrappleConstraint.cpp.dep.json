@@ -1,0 +1,15 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "c:\\uni\\unreal\\mgp-hideogamer\\mgp-hideogamer\\unigdevmechanic\\source\\unigdevmechanic\\private\\grappleconstraint.cpp",
+        "ProvidedModule": "",
+        "PCH": "c:\\uni\\unreal\\mgp-hideogamer\\mgp-hideogamer\\unigdevmechanic\\intermediate\\build\\win64\\x64\\unigdevmechaniceditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.valexpapi.cpp20.h.pch",
+        "Includes": [
+            "c:\\uni\\unreal\\mgp-hideogamer\\mgp-hideogamer\\unigdevmechanic\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\unigdevmechanic\\definitions.unigdevmechanic.h",
+            "c:\\uni\\unreal\\mgp-hideogamer\\mgp-hideogamer\\unigdevmechanic\\source\\unigdevmechanic\\public\\grappleconstraint.h",
+            "c:\\uni\\unreal\\mgp-hideogamer\\mgp-hideogamer\\unigdevmechanic\\intermediate\\build\\win64\\unrealeditor\\inc\\unigdevmechanic\\uht\\grappleconstraint.generated.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

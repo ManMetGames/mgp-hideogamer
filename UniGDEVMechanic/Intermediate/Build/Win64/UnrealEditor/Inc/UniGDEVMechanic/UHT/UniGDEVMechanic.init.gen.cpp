@@ -17,13 +17,13 @@ static_assert(!UE_WITH_CONSTINIT_UOBJECT, "This generated code can only be compi
 			nullptr,
 			0,
 			PKG_CompiledIn | 0x00000000,
-			0x52CE296F,
-			0x047124DF,
+			0x8B85C8BE,
+			0x3015445B,
 			METADATA_PARAMS(0, nullptr)
 		};
 		UECodeGen_Private::ConstructUPackage(Z_Registration_Info_UPackage__Script_UniGDEVMechanic.OuterSingleton, PackageParams);
 	}
 	return Z_Registration_Info_UPackage__Script_UniGDEVMechanic.OuterSingleton;
 }
-static FRegisterCompiledInInfo Z_CompiledInDeferPackage_UPackage__Script_UniGDEVMechanic(Z_Construct_UPackage__Script_UniGDEVMechanic, TEXT("/Script/UniGDEVMechanic"), Z_Registration_Info_UPackage__Script_UniGDEVMechanic, CONSTRUCT_RELOAD_VERSION_INFO(FPackageReloadVersionInfo, 0x52CE296F, 0x047124DF));
+static FRegisterCompiledInInfo Z_CompiledInDeferPackage_UPackage__Script_UniGDEVMechanic(Z_Construct_UPackage__Script_UniGDEVMechanic, TEXT("/Script/UniGDEVMechanic"), Z_Registration_Info_UPackage__Script_UniGDEVMechanic, CONSTRUCT_RELOAD_VERSION_INFO(FPackageReloadVersionInfo, 0x8B85C8BE, 0x3015445B));
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
+#include "GrappleConstraint.h"
 #include "UniGDEVMechanicCharacter.generated.h"
 
 class UInputComponent;
@@ -60,14 +61,25 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Grapple, meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* GrappleGun;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Grapple, meta = (AllowPrivateAccess = "true"))
+	class UStaticMeshComponent* GrappleHook;
+
+	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Grapple, meta = (AllowPrivateAccess = "true"))
+	//class UPhysicsConstraintComponent* GrapplePhysicsConstraint;
+
+	UPROPERTY()
+	TSubclassOf<AGrappleConstraint> GrappleConstraintClass;
 	
 public:
 	AUniGDEVMechanicCharacter();
 
 protected:
 
-	//virtual void BeginPlay();
+	virtual void BeginPlay() override;
 	void Tick(float DeltaTime);
+
+	
 
 protected:
 
@@ -113,13 +125,24 @@ private:
 
 	void Grapple();
 	void StopGrapple();
+	float CalculateDotProductCustom();
 
-	float MaxGrappleDistance = 1600.f;
+	// range at which the grapple can be shot at
+	float MaxGrappleShootingDistance = 1600.f;
+	// adjustable value. It starts out with the distance the grapple point is from the player
+	float MaxGrappleDistance;
+	// measurement of the distance from the grapple point.
+	float DistanceFromGrapplePoint;
 	bool bIsGrappling;
 	bool bHasHit;
 	FVector GrapplePoint;
+	FVector PlayerPosition;
 
 	FHitResult HitResult;
+
+	//AGrappleConstraint GrappleConstraintPoint;
+
+	const FRotator SpawnRotation = FRotator::ZeroRotator;
 
 };
 

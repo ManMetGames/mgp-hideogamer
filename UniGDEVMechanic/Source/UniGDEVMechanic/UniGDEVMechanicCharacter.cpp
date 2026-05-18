@@ -51,7 +51,7 @@ AUniGDEVMechanicCharacter::AUniGDEVMechanicCharacter()
 
 	// Configure character movement
 	GetCharacterMovement()->BrakingDecelerationFalling = 0;
-	GetCharacterMovement()->AirControl = 2.0f;
+	GetCharacterMovement()->AirControl = 0.5f;
 
 	// Creates the grapple gun mesh
 	GrappleGun = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Grapple Gun"));
@@ -84,6 +84,8 @@ AUniGDEVMechanicCharacter::AUniGDEVMechanicCharacter()
 void AUniGDEVMechanicCharacter::BeginPlay() 
 {
 	Super::BeginPlay();
+
+	Mass = 100;
 
 
 }
@@ -123,8 +125,6 @@ void AUniGDEVMechanicCharacter::Tick(float DeltaTime)
 
 	if (bIsGrappling) 
 	{
-		// Disable friction
-		GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Falling);
 
 		// Get player location
 		PlayerPosition = GetActorLocation();
@@ -132,17 +132,17 @@ void AUniGDEVMechanicCharacter::Tick(float DeltaTime)
 		// Get the end location using the grapple point transform
 	    GrappleCable->EndLocation = GetActorTransform().InverseTransformPosition(GrapplePoint);
 
-		//GrappleHook->(GrapplePoint, false, 0, ETeleportType::None);
-		//GrappleHook->RelativeLocation
-
-		
-		
 
 		// Finds float distance from grapple point
-		DistanceFromGrapplePoint = (GrapplePoint - PlayerPosition).Size();
+		DistanceFromGrapplePoint = (PlayerPosition - GrapplePoint).Size();
 		if (DistanceFromGrapplePoint > MaxGrappleDistance) 
 		{
-			GetCharacterMovement()->AddForce(GetVelocity()-(CalculateDotProductCustom()*(GrapplePoint - PlayerPosition).GetSafeNormal())*18000);
+			/* Finds the direction of the player from the grapple point, reverses it and then multiplies by some arbitrary values
+			 and the magnitude of the velocity going towards the player (but only if the result of the dot product is above 0, it does not actually
+			 find the magnitude if its negative because that causes bugs) */
+
+			GetCharacterMovement()->AddForce(-((PlayerPosition - GrapplePoint).GetSafeNormal()* Mass * 100 * (CalculateDotProductCustom())));
+			
 		}
 
 
@@ -177,25 +177,12 @@ void AUniGDEVMechanicCharacter::Grapple()
 		GrappleCable->SetVisibility(true);
 		GrapplePoint = HitResult.ImpactPoint;
 
-		PlayerPosition = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
+		PlayerPosition = GetActorLocation();
 		// Finds float distance from grapple point
 		DistanceFromGrapplePoint = (GrapplePoint - PlayerPosition).Size();
 		// Sets this as the maximum distance from that point
 		MaxGrappleDistance = DistanceFromGrapplePoint;
 
-		/*FActorSpawnParameters SpawnInfo;
-		UPrimitiveComponent* GrappleConstraintPoint = GetWorld()->SpawnActor<UPrimitiveComponent>(GrappleConstraintClass, GrapplePoint, SpawnRotation);
-		UE_LOG(LogTemp, Warning, TEXT("Object created"));
-		GrapplePhysicsConstraint->SetConstrainedComponents(GrappleConstraintPoint, "", GetCapsuleComponent(), "");
-
-		PlayerPosition = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
-		// Finds float distance from grapple point
-		DistanceFromGrapplePoint = (GrapplePoint - PlayerPosition).Size();
-		// Sets this as the maximum distance from that point
-		MaxGrappleDistance = DistanceFromGrapplePoint;
-		GrapplePhysicsConstraint->SetLinearXLimit(ELinearConstraintMotion::LCM_Limited, MaxGrappleDistance);
-		GrapplePhysicsConstraint->SetLinearYLimit(ELinearConstraintMotion::LCM_Limited, MaxGrappleDistance);
-		GrapplePhysicsConstraint->SetLinearZLimit(ELinearConstraintMotion::LCM_Limited, MaxGrappleDistance);*/
 
 	}
 }
@@ -215,12 +202,19 @@ void AUniGDEVMechanicCharacter::StopGrapple()
 
 float AUniGDEVMechanicCharacter::CalculateDotProductCustom() 
 {
+	// Magnitude of the velocity going in the direction of the player
 	FVector Velocity = GetVelocity();
-	FVector NormalizedDirection = (GrapplePoint - PlayerPosition).GetSafeNormal();
+	FVector NormalizedDirection = (PlayerPosition - GrapplePoint).GetSafeNormal();
 	float x = Velocity.X * NormalizedDirection.X;
 	float y = Velocity.Y * NormalizedDirection.Y;
 	float z = Velocity.Z * NormalizedDirection.Z;
 	float DotProduct = x + y + z;
+	
+	// This function needs to do nothing if the result is less than 0 to avoid bouncy behaviour
+    if (DotProduct < 0) 
+	{
+		DotProduct = 1.0;
+	}
 	return DotProduct;
 
 }

@@ -144,5 +144,7 @@ private:
 
 	const FRotator SpawnRotation = FRotator::ZeroRotator;
 
+	float Mass;
+
 };
 

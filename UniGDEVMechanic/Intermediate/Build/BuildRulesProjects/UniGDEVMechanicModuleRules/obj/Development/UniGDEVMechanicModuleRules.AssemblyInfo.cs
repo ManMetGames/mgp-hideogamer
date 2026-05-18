@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UniGDEVMechanicModuleRules")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Development")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5429d41ee915fffdd28164f3b39bd10524970e10")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+69bf0c1484d2a3e74f2162dcf3a4e82841644dba")]
 [assembly: System.Reflection.AssemblyProductAttribute("UniGDEVMechanicModuleRules")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UniGDEVMechanicModuleRules")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

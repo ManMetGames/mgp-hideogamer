@@ -1,35 +1,13 @@
-[11260:44284:0517/213311.374:WARNING:chrome_main_delegate.cc(745)] This is Chrome version 128.0.6613.138 (not a warning)
-[11260:27896:0517/213311.418:ERROR:google_update_settings.cc(265)] Failed opening key Software\Chromium to set usagestats; result: 5
-[11260:44284:0517/213311.443:WARNING:account_consistency_mode_manager.cc(77)] Desktop Identity Consistency cannot be enabled as no OAuth client ID and client secret have been configured.
-[38252:31908:0517/213314.823:WARNING:frame_impl.cc(430)] virtual CefFrameImpl::SendProcessMessage sent to detached frame 5-1E8454D00CA251D512756D2D56535B01 will be ignored
-[11260:41452:0517/213316.161:WARNING:browser_info.cc(345)] Returning a speculative frame for [7,9]
-[11260:44284:0517/213316.825:WARNING:browser_info.cc(345)] Returning a speculative frame for [9,9]
-[11260:44284:0517/213316.825:WARNING:browser_info.cc(345)] Returning a speculative frame for [9,9]
-[11260:44284:0517/213316.825:WARNING:browser_info.cc(345)] Returning a speculative frame for [9,9]
-[11260:44284:0517/213316.825:WARNING:browser_info.cc(345)] Returning a speculative frame for [9,9]
-[11260:41452:0517/213316.829:WARNING:browser_info.cc(345)] Returning a speculative frame for [9,9]
-[32056:17632:0517/213318.493:ERROR:ssl_client_socket_impl.cc(882)] handshake failed; returned -1, SSL error code 1, net_error -107
-[32056:17632:0517/213318.498:ERROR:ssl_client_socket_impl.cc(882)] handshake failed; returned -1, SSL error code 1, net_error -100
-[11260:41452:0517/213318.601:ERROR:cast_crl.cc(443)] CRL - Verification failed.
-[32056:17632:0517/213318.829:ERROR:ssl_client_socket_impl.cc(882)] handshake failed; returned -1, SSL error code 1, net_error -100
-[32056:17632:0517/213319.162:ERROR:ssl_client_socket_impl.cc(882)] handshake failed; returned -1, SSL error code 1, net_error -100
-[41604:14024:0517/213323.159:WARNING:codec.cc(525)] Explicitly added H264 constrained baseline to list of supported formats.
-[41604:14024:0517/213324.146:WARNING:codec.cc(525)] Explicitly added H264 constrained baseline to list of supported formats.
-[41604:19448:0517/213324.151:WARNING:codec.cc(525)] Explicitly added H264 constrained baseline to list of supported formats.
-[41604:19448:0517/213324.151:WARNING:codec.cc(525)] Explicitly added H264 constrained baseline to list of supported formats.
-[41604:19448:0517/213324.152:WARNING:codec.cc(525)] Explicitly added H264 constrained baseline to list of supported formats.
-[32056:17632:0517/213324.209:WARNING:host_resolver_dns_task.cc(863)] Address list empty after RFC3484 sort
-[32056:17632:0517/213324.214:ERROR:socket_manager.cc(147)] Failed to resolve address for stun.cloudflare.com., errorcode: -105
-[32056:17632:0517/213324.214:ERROR:socket_manager.cc(147)] Failed to resolve address for stun.cloudflare.com., errorcode: -105
-[32056:17632:0517/213324.214:ERROR:socket_manager.cc(147)] Failed to resolve address for stun.cloudflare.com., errorcode: -105
-[41604:19448:0517/213324.214:WARNING:stun_port.cc(442)] Port[4221800:0:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: StunPort: stun host lookup received error -1
-[41604:19448:0517/213324.214:WARNING:stun_port.cc(442)] Port[4222000:1:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: StunPort: stun host lookup received error -1
-[41604:19448:0517/213324.214:WARNING:stun_port.cc(442)] Port[4222800:2:1:0:host:Net[any:0:0:0:x:x:x:x:x/0:Wildcard:id=0]]: StunPort: stun host lookup received error -1
-[32056:17632:0517/213329.529:ERROR:ssl_client_socket_impl.cc(882)] handshake failed; returned -1, SSL error code 1, net_error -100
-[32056:17632:0517/213332.248:ERROR:ssl_client_socket_impl.cc(882)] handshake failed; returned -1, SSL error code 1, net_error -107
-[32056:17632:0517/213341.008:ERROR:ssl_client_socket_impl.cc(882)] handshake failed; returned -1, SSL error code 1, net_error -100
-[32056:17632:0517/213344.781:ERROR:ssl_client_socket_impl.cc(882)] handshake failed; returned -1, SSL error code 1, net_error -107
-[13384:4944:0517/213528.877:ERROR:shared_image_manager.cc(224)] SharedImageManager::ProduceSkia: Trying to Produce a Skia representation from a non-existent mailbox.
-[13384:4944:0517/213528.877:ERROR:shared_image_manager.cc(224)] SharedImageManager::ProduceSkia: Trying to Produce a Skia representation from a non-existent mailbox.
-[11260:41452:0517/225814.048:ERROR:cast_crl.cc(443)] CRL - Verification failed.
-[11260:44284:0518/022120.644:WARNING:pref_notifier_impl.cc(41)] Pref observer for media_router.cast_allow_all_ips found at shutdown.
+[24068:41508:0520/200230.099:WARNING:chrome_main_delegate.cc(745)] This is Chrome version 128.0.6613.138 (not a warning)
+[24068:24608:0520/200230.139:ERROR:google_update_settings.cc(265)] Failed opening key Software\Chromium to set usagestats; result: 5
+[24068:41508:0520/200230.161:WARNING:account_consistency_mode_manager.cc(77)] Desktop Identity Consistency cannot be enabled as no OAuth client ID and client secret have been configured.
+[49648:2488:0520/200235.008:WARNING:frame_impl.cc(430)] virtual CefFrameImpl::SendProcessMessage sent to detached frame 5-F8EECE541AFD2013732990E1DFA9346E will be ignored
+[20492:43360:0520/200237.679:ERROR:ssl_client_socket_impl.cc(882)] handshake failed; returned -1, SSL error code 1, net_error -107
+[24068:10184:0520/200237.783:ERROR:cast_crl.cc(443)] CRL - Verification failed.
+[20492:43360:0520/200238.344:ERROR:ssl_client_socket_impl.cc(882)] handshake failed; returned -1, SSL error code 1, net_error -100
+[20492:43360:0520/200250.346:ERROR:ssl_client_socket_impl.cc(882)] handshake failed; returned -1, SSL error code 1, net_error -100
+[20492:43360:0520/200259.351:ERROR:ssl_client_socket_impl.cc(882)] handshake failed; returned -1, SSL error code 1, net_error -100
+[24068:10184:0520/215348.389:ERROR:cast_crl.cc(443)] CRL - Verification failed.
+[24068:41508:0521/020658.481:ERROR:device_event_log_impl.cc(196)] [02:06:58.295] USB: usb_service_win.cc:105 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: Element not found. (0x490)
+[24068:10184:0521/021321.561:ERROR:cast_crl.cc(443)] CRL - Verification failed.
+[24068:41508:0521/025827.535:WARNING:pref_notifier_impl.cc(41)] Pref observer for media_router.cast_allow_all_ips found at shutdown.

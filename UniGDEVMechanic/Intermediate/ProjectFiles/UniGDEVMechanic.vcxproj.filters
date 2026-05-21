@@ -176,5 +176,6 @@
       <Filter>Source\UniGDEVMechanic</Filter>
     </ClInclude>
     <None Include="..\..\UniGDEVMechanic.uproject" />
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

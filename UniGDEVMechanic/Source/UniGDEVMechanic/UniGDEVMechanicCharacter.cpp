@@ -15,7 +15,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "PhysicsEngine/PhysicsConstraintComponent.h"
 #include "Engine/StaticMeshActor.h"
-#include "GrappleConstraint.h"
+
 
 
 
@@ -51,7 +51,8 @@ AUniGDEVMechanicCharacter::AUniGDEVMechanicCharacter()
 
 	// Configure character movement
 	GetCharacterMovement()->BrakingDecelerationFalling = 0;
-	GetCharacterMovement()->AirControl = 0.5f;
+	GetCharacterMovement()->AirControl = 0.1f;
+	GetCharacterMovement()->FallingLateralFriction = 0;
 
 	// Creates the grapple gun mesh
 	GrappleGun = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Grapple Gun"));
@@ -108,6 +109,14 @@ void AUniGDEVMechanicCharacter::SetupPlayerInputComponent(UInputComponent* Playe
 
 		// Grappling
 		EnhancedInputComponent->BindAction(GrappleAction, ETriggerEvent::Triggered, this, &AUniGDEVMechanicCharacter::Grapple);
+
+		// Extending
+		EnhancedInputComponent->BindAction(ExtendGrappleAction, ETriggerEvent::Started, this, &AUniGDEVMechanicCharacter::ExtendGrapple);
+		EnhancedInputComponent->BindAction(ExtendGrappleAction, ETriggerEvent::Completed, this, &AUniGDEVMechanicCharacter::StopExtending);
+
+		// Reeling
+		EnhancedInputComponent->BindAction(ReelGrappleAction, ETriggerEvent::Started, this, &AUniGDEVMechanicCharacter::ReelGrapple);
+		EnhancedInputComponent->BindAction(ReelGrappleAction, ETriggerEvent::Completed, this, &AUniGDEVMechanicCharacter::StopReeling);
 		
 
 
@@ -125,29 +134,66 @@ void AUniGDEVMechanicCharacter::Tick(float DeltaTime)
 
 	if (bIsGrappling) 
 	{
-
+		GetCharacterMovement()->FallingLateralFriction = 1;
+		
 		// Get player location
 		PlayerPosition = GetActorLocation();
 		
 		// Get the end location using the grapple point transform
 	    GrappleCable->EndLocation = GetActorTransform().InverseTransformPosition(GrapplePoint);
 
+		
+		
+		//This block of code moves the player towards the grapple point while decreasing the distance the player can go from the grapple
+		if (isReeling) 
+		{
+		  // Applies more force when grounded to account for friction
+		  if (GetCharacterMovement()->MovementMode == MOVE_Walking)
+		  {
+			  GrappleSpeed = 1000000;
+		  }
+		  else 
+		  {
+			  GrappleSpeed = 200000;
+		  }
+		  
+	      // Move Player towards the grapple point. The number that it is multiplied is the speed that the grapple is reeled in.
+		  GetCharacterMovement()->AddForce((GrapplePoint - GetActorLocation()).GetSafeNormal() * GrappleSpeed);
+		  //MaxGrappleDistance -= 1000;
+		  //MaxGrappleDistance = FMath::Clamp(MaxGrappleDistance, 0.0f, 1000000000.0f);
+		  GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Example text that prints a float: %f"), GrappleSpeed));
+		  DistanceFromGrapplePoint = (PlayerPosition - GrapplePoint).Size();
+		  MaxGrappleDistance = DistanceFromGrapplePoint;
+		  
+	
+		}
 
+		// This block of code extends the distance the player can go from the grapple.
+		if (isExtending)
+		{
+			MaxGrappleDistance += 2.5;
+			DistanceFromGrapplePoint = (PlayerPosition - GrapplePoint).Size();
+			MaxGrappleDistance = DistanceFromGrapplePoint;
+			
+			if (GEngine) {
+				
+					GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("Example text that prints a float: %f"), MaxGrappleDistance));
+			}
+		}
+
+		// This block of code restricts the distance that the player can go from the grapple.
 		// Finds float distance from grapple point
 		DistanceFromGrapplePoint = (PlayerPosition - GrapplePoint).Size();
-		if (DistanceFromGrapplePoint > MaxGrappleDistance) 
+		if (DistanceFromGrapplePoint > MaxGrappleDistance)
 		{
 			/* Finds the direction of the player from the grapple point, reverses it and then multiplies by some arbitrary values
 			 and the magnitude of the velocity going towards the player (but only if the result of the dot product is above 0, it does not actually
 			 find the magnitude if its negative because that causes bugs) */
 
-			GetCharacterMovement()->AddForce(-((PlayerPosition - GrapplePoint).GetSafeNormal()* Mass * 100 * (CalculateDotProductCustom())));
-			
+			GetCharacterMovement()->AddForce(-((PlayerPosition - GrapplePoint).GetSafeNormal() * Mass * 100 * (CalculateDotProductCustom())));
+
 		}
-
-
-		// Move Player towards the grapple point. The number that it is multiplied is the speed that the grapple is reeled in.
-		//GetCharacterMovement()->AddForce((GrapplePoint - GetActorLocation()).GetSafeNormal() * 300000);
+		
 
 		
 	} 
@@ -192,12 +238,30 @@ void AUniGDEVMechanicCharacter::StopGrapple()
 	bIsGrappling = false;
 	bHasHit = false;
 	
-	if (!GetCharacterMovement()->IsFalling()) 
-	{
-		// disable friction
-		GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Falling);
-	}
 	GrappleCable->SetVisibility(false);
+	GetCharacterMovement()->FallingLateralFriction = 0;
+}
+
+void AUniGDEVMechanicCharacter::ExtendGrapple()
+{
+	isExtending = true;
+}
+
+void AUniGDEVMechanicCharacter::ReelGrapple()
+{
+	isReeling = true;
+	//if (GEngine)
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TEXT("Reeling"));
+}
+
+void AUniGDEVMechanicCharacter::StopExtending()
+{
+	isExtending = false;
+}
+
+void AUniGDEVMechanicCharacter::StopReeling()
+{
+	isReeling = false;
 }
 
 float AUniGDEVMechanicCharacter::CalculateDotProductCustom() 

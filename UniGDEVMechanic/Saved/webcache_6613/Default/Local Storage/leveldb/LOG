@@ -1,3 +1,7 @@
-2026/05/17-21:33:11.522 7dd8 Reusing MANIFEST C:\Uni\Unreal\mgp-hideogamer\mgp-hideogamer\UniGDEVMechanic\Saved\webcache_6613\Default\Local Storage\leveldb/MANIFEST-000001
-2026/05/17-21:33:11.534 7dd8 Recovering log #8
-2026/05/17-21:33:11.535 7dd8 Reusing old log C:\Uni\Unreal\mgp-hideogamer\mgp-hideogamer\UniGDEVMechanic\Saved\webcache_6613\Default\Local Storage\leveldb/000008.log 
+2026/05/20-20:02:30.231 2210 Reusing MANIFEST C:\Uni\Unreal\mgp-hideogamer\mgp-hideogamer\UniGDEVMechanic\Saved\webcache_6613\Default\Local Storage\leveldb/MANIFEST-000001
+2026/05/20-20:02:30.242 2210 Recovering log #8
+2026/05/20-20:02:30.242 2210 Level-0 table #10: started
+2026/05/20-20:02:30.246 2210 Level-0 table #10: 68084 bytes OK
+2026/05/20-20:02:30.254 2210 Recovering log #10
+2026/05/20-20:02:30.256 2210 Reusing old log C:\Uni\Unreal\mgp-hideogamer\mgp-hideogamer\UniGDEVMechanic\Saved\webcache_6613\Default\Local Storage\leveldb/000010.log 
+2026/05/20-20:02:30.257 2210 Delete type=0 #8

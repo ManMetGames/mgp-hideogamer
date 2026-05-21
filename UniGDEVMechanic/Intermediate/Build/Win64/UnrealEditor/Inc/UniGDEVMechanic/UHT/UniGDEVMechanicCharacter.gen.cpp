@@ -13,13 +13,11 @@ void EmptyLinkFunctionForGeneratedCodeUniGDEVMechanicCharacter() {}
 
 // ********** Begin Cross Module References ********************************************************
 CABLECOMPONENT_API UClass* Z_Construct_UClass_UCableComponent_NoRegister();
-COREUOBJECT_API UClass* Z_Construct_UClass_UClass_NoRegister();
 ENGINE_API UClass* Z_Construct_UClass_ACharacter();
 ENGINE_API UClass* Z_Construct_UClass_UCameraComponent_NoRegister();
 ENGINE_API UClass* Z_Construct_UClass_USkeletalMeshComponent_NoRegister();
 ENGINE_API UClass* Z_Construct_UClass_UStaticMeshComponent_NoRegister();
 ENHANCEDINPUT_API UClass* Z_Construct_UClass_UInputAction_NoRegister();
-UNIGDEVMECHANIC_API UClass* Z_Construct_UClass_AGrappleConstraint_NoRegister();
 UNIGDEVMECHANIC_API UClass* Z_Construct_UClass_AUniGDEVMechanicCharacter();
 UNIGDEVMECHANIC_API UClass* Z_Construct_UClass_AUniGDEVMechanicCharacter_NoRegister();
 UPackage* Z_Construct_UPackage__Script_UniGDEVMechanic();
@@ -348,6 +346,16 @@ struct Z_Construct_UClass_AUniGDEVMechanicCharacter_Statics
 		{ "Category", "Input" },
 		{ "ModuleRelativePath", "UniGDEVMechanicCharacter.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_ExtendGrappleAction_MetaData[] = {
+		{ "AllowPrivateAccess", "true" },
+		{ "Category", "Input" },
+		{ "ModuleRelativePath", "UniGDEVMechanicCharacter.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_ReelGrappleAction_MetaData[] = {
+		{ "AllowPrivateAccess", "true" },
+		{ "Category", "Input" },
+		{ "ModuleRelativePath", "UniGDEVMechanicCharacter.h" },
+	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_GrappleCable_MetaData[] = {
 		{ "AllowPrivateAccess", "true" },
 		{ "Category", "Grapple" },
@@ -372,15 +380,6 @@ struct Z_Construct_UClass_AUniGDEVMechanicCharacter_Statics
 		{ "EditInline", "true" },
 		{ "ModuleRelativePath", "UniGDEVMechanicCharacter.h" },
 	};
-	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_GrappleConstraintClass_MetaData[] = {
-#if !UE_BUILD_SHIPPING
-		{ "Comment", "//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Grapple, meta = (AllowPrivateAccess = \"true\"))\n//class UPhysicsConstraintComponent* GrapplePhysicsConstraint;\n" },
-#endif
-		{ "ModuleRelativePath", "UniGDEVMechanicCharacter.h" },
-#if !UE_BUILD_SHIPPING
-		{ "ToolTip", "UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Grapple, meta = (AllowPrivateAccess = \"true\"))\nclass UPhysicsConstraintComponent* GrapplePhysicsConstraint;" },
-#endif
-	};
 #endif // WITH_METADATA
 
 // ********** Begin Class AUniGDEVMechanicCharacter constinit property declarations ****************
@@ -391,11 +390,12 @@ struct Z_Construct_UClass_AUniGDEVMechanicCharacter_Statics
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_LookAction;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_MouseLookAction;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_GrappleAction;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_ExtendGrappleAction;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_ReelGrappleAction;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_GrappleCable;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_GrappleStartLocation;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_GrappleGun;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_GrappleHook;
-	static const UECodeGen_Private::FClassPropertyParams NewProp_GrappleConstraintClass;
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 // ********** End Class AUniGDEVMechanicCharacter constinit property declarations ******************
 	static constexpr UE::CodeGen::FClassNativeFunction Funcs[] = {
@@ -426,11 +426,12 @@ const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AUniGDEVMechan
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AUniGDEVMechanicCharacter_Statics::NewProp_LookAction = { "LookAction", nullptr, (EPropertyFlags)0x0020080000000001, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AUniGDEVMechanicCharacter, LookAction), Z_Construct_UClass_UInputAction_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_LookAction_MetaData), NewProp_LookAction_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AUniGDEVMechanicCharacter_Statics::NewProp_MouseLookAction = { "MouseLookAction", nullptr, (EPropertyFlags)0x0020080000000001, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AUniGDEVMechanicCharacter, MouseLookAction), Z_Construct_UClass_UInputAction_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_MouseLookAction_MetaData), NewProp_MouseLookAction_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AUniGDEVMechanicCharacter_Statics::NewProp_GrappleAction = { "GrappleAction", nullptr, (EPropertyFlags)0x0020080000000015, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AUniGDEVMechanicCharacter, GrappleAction), Z_Construct_UClass_UInputAction_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_GrappleAction_MetaData), NewProp_GrappleAction_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AUniGDEVMechanicCharacter_Statics::NewProp_ExtendGrappleAction = { "ExtendGrappleAction", nullptr, (EPropertyFlags)0x0020080000000015, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AUniGDEVMechanicCharacter, ExtendGrappleAction), Z_Construct_UClass_UInputAction_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ExtendGrappleAction_MetaData), NewProp_ExtendGrappleAction_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AUniGDEVMechanicCharacter_Statics::NewProp_ReelGrappleAction = { "ReelGrappleAction", nullptr, (EPropertyFlags)0x0020080000000015, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AUniGDEVMechanicCharacter, ReelGrappleAction), Z_Construct_UClass_UInputAction_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ReelGrappleAction_MetaData), NewProp_ReelGrappleAction_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AUniGDEVMechanicCharacter_Statics::NewProp_GrappleCable = { "GrappleCable", nullptr, (EPropertyFlags)0x002008000008001d, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AUniGDEVMechanicCharacter, GrappleCable), Z_Construct_UClass_UCableComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_GrappleCable_MetaData), NewProp_GrappleCable_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AUniGDEVMechanicCharacter_Statics::NewProp_GrappleStartLocation = { "GrappleStartLocation", nullptr, (EPropertyFlags)0x002008000008001d, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AUniGDEVMechanicCharacter, GrappleStartLocation), Z_Construct_UClass_UStaticMeshComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_GrappleStartLocation_MetaData), NewProp_GrappleStartLocation_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AUniGDEVMechanicCharacter_Statics::NewProp_GrappleGun = { "GrappleGun", nullptr, (EPropertyFlags)0x002008000008001d, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AUniGDEVMechanicCharacter, GrappleGun), Z_Construct_UClass_UStaticMeshComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_GrappleGun_MetaData), NewProp_GrappleGun_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AUniGDEVMechanicCharacter_Statics::NewProp_GrappleHook = { "GrappleHook", nullptr, (EPropertyFlags)0x002008000008001d, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AUniGDEVMechanicCharacter, GrappleHook), Z_Construct_UClass_UStaticMeshComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_GrappleHook_MetaData), NewProp_GrappleHook_MetaData) };
-const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_AUniGDEVMechanicCharacter_Statics::NewProp_GrappleConstraintClass = { "GrappleConstraintClass", nullptr, (EPropertyFlags)0x0024080000000000, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(AUniGDEVMechanicCharacter, GrappleConstraintClass), Z_Construct_UClass_UClass_NoRegister, Z_Construct_UClass_AGrappleConstraint_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_GrappleConstraintClass_MetaData), NewProp_GrappleConstraintClass_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_AUniGDEVMechanicCharacter_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AUniGDEVMechanicCharacter_Statics::NewProp_FirstPersonMesh,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AUniGDEVMechanicCharacter_Statics::NewProp_FirstPersonCameraComponent,
@@ -439,11 +440,12 @@ const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_AUniGDEVM
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AUniGDEVMechanicCharacter_Statics::NewProp_LookAction,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AUniGDEVMechanicCharacter_Statics::NewProp_MouseLookAction,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AUniGDEVMechanicCharacter_Statics::NewProp_GrappleAction,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AUniGDEVMechanicCharacter_Statics::NewProp_ExtendGrappleAction,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AUniGDEVMechanicCharacter_Statics::NewProp_ReelGrappleAction,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AUniGDEVMechanicCharacter_Statics::NewProp_GrappleCable,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AUniGDEVMechanicCharacter_Statics::NewProp_GrappleStartLocation,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AUniGDEVMechanicCharacter_Statics::NewProp_GrappleGun,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AUniGDEVMechanicCharacter_Statics::NewProp_GrappleHook,
-	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AUniGDEVMechanicCharacter_Statics::NewProp_GrappleConstraintClass,
 };
 static_assert(UE_ARRAY_COUNT(Z_Construct_UClass_AUniGDEVMechanicCharacter_Statics::PropPointers) < 2048);
 // ********** End Class AUniGDEVMechanicCharacter Property Definitions *****************************
@@ -488,10 +490,10 @@ AUniGDEVMechanicCharacter::~AUniGDEVMechanicCharacter() {}
 struct Z_CompiledInDeferFile_FID_Uni_Unreal_mgp_hideogamer_mgp_hideogamer_UniGDEVMechanic_Source_UniGDEVMechanic_UniGDEVMechanicCharacter_h__Script_UniGDEVMechanic_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_AUniGDEVMechanicCharacter, AUniGDEVMechanicCharacter::StaticClass, TEXT("AUniGDEVMechanicCharacter"), &Z_Registration_Info_UClass_AUniGDEVMechanicCharacter, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(AUniGDEVMechanicCharacter), 714241302U) },
+		{ Z_Construct_UClass_AUniGDEVMechanicCharacter, AUniGDEVMechanicCharacter::StaticClass, TEXT("AUniGDEVMechanicCharacter"), &Z_Registration_Info_UClass_AUniGDEVMechanicCharacter, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(AUniGDEVMechanicCharacter), 2505459400U) },
 	};
 }; // Z_CompiledInDeferFile_FID_Uni_Unreal_mgp_hideogamer_mgp_hideogamer_UniGDEVMechanic_Source_UniGDEVMechanic_UniGDEVMechanicCharacter_h__Script_UniGDEVMechanic_Statics 
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Uni_Unreal_mgp_hideogamer_mgp_hideogamer_UniGDEVMechanic_Source_UniGDEVMechanic_UniGDEVMechanicCharacter_h__Script_UniGDEVMechanic_3600466715{
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_Uni_Unreal_mgp_hideogamer_mgp_hideogamer_UniGDEVMechanic_Source_UniGDEVMechanic_UniGDEVMechanicCharacter_h__Script_UniGDEVMechanic_2356485007{
 	TEXT("/Script/UniGDEVMechanic"),
 	Z_CompiledInDeferFile_FID_Uni_Unreal_mgp_hideogamer_mgp_hideogamer_UniGDEVMechanic_Source_UniGDEVMechanic_UniGDEVMechanicCharacter_h__Script_UniGDEVMechanic_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_Uni_Unreal_mgp_hideogamer_mgp_hideogamer_UniGDEVMechanic_Source_UniGDEVMechanic_UniGDEVMechanicCharacter_h__Script_UniGDEVMechanic_Statics::ClassInfo),
 	nullptr, 0,

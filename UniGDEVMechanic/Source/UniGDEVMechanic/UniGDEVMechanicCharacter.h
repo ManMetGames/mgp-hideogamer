@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
-#include "GrappleConstraint.h"
 #include "UniGDEVMechanicCharacter.generated.h"
 
 class UInputComponent;
@@ -50,26 +49,27 @@ protected:
 	UPROPERTY(EditAnywhere, Category ="Input")
 	class UInputAction* MouseLookAction;
 
-	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
 	class UInputAction* GrappleAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Grapple, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	class UInputAction* ExtendGrappleAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	class UInputAction* ReelGrappleAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Grapple", meta = (AllowPrivateAccess = "true"))
 	class UCableComponent* GrappleCable;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Grapple, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Grapple", meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* GrappleStartLocation;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Grapple, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Grapple", meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* GrappleGun;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Grapple, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Grapple", meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* GrappleHook;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Grapple, meta = (AllowPrivateAccess = "true"))
-	//class UPhysicsConstraintComponent* GrapplePhysicsConstraint;
-
-	UPROPERTY()
-	TSubclassOf<AGrappleConstraint> GrappleConstraintClass;
 	
 public:
 	AUniGDEVMechanicCharacter();
@@ -122,28 +122,42 @@ public:
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
 private:
-
+	// Grapple methods
 	void Grapple();
 	void StopGrapple();
+
+	// These make the grapple extend or decrease in length. They use different speed values, reeling is faster.
+	void ExtendGrapple();
+	void ReelGrapple();
+	void StopExtending();
+	void StopReeling();
+
+	// Maths method that calculates the dot product in a SPECIFIC way for grapple maths only
 	float CalculateDotProductCustom();
 
+	float GrappleSpeed;
+
 	// range at which the grapple can be shot at
-	float MaxGrappleShootingDistance = 1600.f;
+	float MaxGrappleShootingDistance = 2000.f;
 	// adjustable value. It starts out with the distance the grapple point is from the player
 	float MaxGrappleDistance;
 	// measurement of the distance from the grapple point.
 	float DistanceFromGrapplePoint;
 	bool bIsGrappling;
 	bool bHasHit;
+	bool isExtending;
+	bool isReeling;
+
+
+	// Point that the grapple hits and will pull the player towards.
 	FVector GrapplePoint;
+
+	// Player position, usually used to compare to the grapple point.
 	FVector PlayerPosition;
 
 	FHitResult HitResult;
 
-	//AGrappleConstraint GrappleConstraintPoint;
-
-	const FRotator SpawnRotation = FRotator::ZeroRotator;
-
+	// Mass of player used for physics calculations. Kg.
 	float Mass;
 
 };

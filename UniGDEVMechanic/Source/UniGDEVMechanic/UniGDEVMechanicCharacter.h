@@ -67,8 +67,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Grapple", meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* GrappleGun;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Grapple", meta = (AllowPrivateAccess = "true"))
-	class UStaticMeshComponent* GrappleHook;
 
 	
 public:
@@ -132,10 +130,19 @@ private:
 	void StopExtending();
 	void StopReeling();
 
+	// Method that shoots the hook or pulls the hook towards the gun based on the bool inputted.
+	void MoveHook();
+	
+	void Grappling();
+	void SetUpGrapple();
+	void Reel();
+	void Extend();
 	// Maths method that calculates the dot product in a SPECIFIC way for grapple maths only
 	float CalculateDotProductCustom();
 
 	float GrappleSpeed;
+
+	float HookSpeed = 10;
 
 	// range at which the grapple can be shot at
 	float MaxGrappleShootingDistance = 2000.f;
@@ -143,14 +150,25 @@ private:
 	float MaxGrappleDistance;
 	// measurement of the distance from the grapple point.
 	float DistanceFromGrapplePoint;
-	bool bIsGrappling;
-	bool bHasHit;
-	bool isExtending;
-	bool isReeling;
 
+	// Initial distance from the grapple starting point to the grapple point
+	float InitialHookDistance;
+	float CurrentHookDistance;
+	bool bIsGrappling;
+	bool bHookIsMoving;
+	bool bHasHit;
+	bool bIsExtending;
+	bool bIsReeling;
+	bool bHookHasFinishedMoving;
 
 	// Point that the grapple hits and will pull the player towards.
 	FVector GrapplePoint;
+
+	// Temporary point used to simulate a projectile being shot, the grapple will be attached to this when firing until it reaches the grapple point and vice versa when it reaches the gun
+	FVector HookPoint;
+	FVector InitialFiringPoint;
+
+	FVector HookDirection;
 
 	// Player position, usually used to compare to the grapple point.
 	FVector PlayerPosition;

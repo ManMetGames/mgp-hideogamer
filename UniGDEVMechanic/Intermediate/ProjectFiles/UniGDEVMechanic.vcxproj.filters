@@ -136,10 +136,16 @@
     <ClCompile Include="..\..\Source\UniGDEVMechanic\Private\GrappleConstraint.cpp">
       <Filter>Source\UniGDEVMechanic\Private</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\UniGDEVMechanic\Private\GrappleHook.cpp">
+      <Filter>Source\UniGDEVMechanic\Private</Filter>
+    </ClCompile>
     <Filter Include="Source\UniGDEVMechanic\Public">
       <UniqueIdentifier>{505303FF-45F1-319B-A823-F3202990098A}</UniqueIdentifier>
     </Filter>
     <ClInclude Include="..\..\Source\UniGDEVMechanic\Public\GrappleConstraint.h">
+      <Filter>Source\UniGDEVMechanic\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\UniGDEVMechanic\Public\GrappleHook.h">
       <Filter>Source\UniGDEVMechanic\Public</Filter>
     </ClInclude>
     <None Include="..\..\Source\UniGDEVMechanic\UniGDEVMechanic.Build.cs">
@@ -176,6 +182,5 @@
       <Filter>Source\UniGDEVMechanic</Filter>
     </ClInclude>
     <None Include="..\..\UniGDEVMechanic.uproject" />
-    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

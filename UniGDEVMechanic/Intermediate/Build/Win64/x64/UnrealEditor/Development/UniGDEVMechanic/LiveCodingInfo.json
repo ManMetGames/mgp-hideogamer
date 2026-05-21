@@ -3,6 +3,7 @@
 	{
 		"Module.UniGDEVMechanic.gen.cpp.obj": [
 			"GrappleConstraint.gen.cpp.obj",
+			"GrappleHook.gen.cpp.obj",
 			"UniGDEVMechanic.init.gen.cpp.obj",
 			"UniGDEVMechanicCameraManager.gen.cpp.obj",
 			"UniGDEVMechanicCharacter.gen.cpp.obj",

@@ -1,0 +1,14 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "c:\\uni\\unreal\\mgp-hideogamer\\mgp-hideogamer\\unigdevmechanic\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\unigdevmechanic\\permoduleinline.gen.cpp",
+        "ProvidedModule": "",
+        "PCH": "c:\\uni\\unreal\\mgp-hideogamer\\mgp-hideogamer\\unigdevmechanic\\intermediate\\build\\win64\\x64\\unigdevmechaniceditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.valexpapi.cpp20.h.pch",
+        "Includes": [
+            "c:\\uni\\unreal\\mgp-hideogamer\\mgp-hideogamer\\unigdevmechanic\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\unigdevmechanic\\definitions.unigdevmechanic.h",
+            "c:\\program files\\epic games\\ue_5.7\\engine\\source\\runtime\\core\\public\\hal\\permoduleinline.inl"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

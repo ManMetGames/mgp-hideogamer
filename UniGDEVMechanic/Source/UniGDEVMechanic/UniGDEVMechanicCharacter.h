@@ -133,6 +133,7 @@ private:
 	// Method that shoots the hook or pulls the hook towards the gun based on the bool inputted.
 	void MoveHook();
 	
+	// Grapple-related methods that were made to organise the code into more manageable chunks
 	void Grappling();
 	void SetUpGrapple();
 	void Reel();

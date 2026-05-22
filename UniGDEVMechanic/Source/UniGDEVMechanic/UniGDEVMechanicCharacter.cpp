@@ -220,7 +220,7 @@ void AUniGDEVMechanicCharacter::Grappling()
 	}
 	if (bHookHasFinishedMoving)
 	{
-		GetCharacterMovement()->FallingLateralFriction = 0.5;
+		GetCharacterMovement()->FallingLateralFriction = 0.1;
 
 		// Get player location
 		PlayerPosition = GetActorLocation();
